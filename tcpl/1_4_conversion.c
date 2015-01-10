@@ -1,3 +1,7 @@
+/*
+ * Print a table of temperatures in units of both Celsius and Fahrenheit
+ */
+
 #include <unistd.h>
 #include <stdio.h>
 #include <stdbool.h>
