@@ -7,6 +7,7 @@ objects := $(subst .c,.o,$(sources))
 executables := $(subst .c,,$(sources))
 
 CFLAGS += --pedantic -Wall -Werror -std=c11 -O3
+CPPFLAGS += -D_POSIX_C_SOURCE=2L
 
 ############### Top level targets
 
