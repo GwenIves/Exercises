@@ -1,13 +1,21 @@
 ############### Definitions
 
-sources := $(wildcard *.c)
+main_sources := $(wildcard *.c)
+lib_sources := $(wildcard common/*.c)
+
+sources := $(main_sources) $(lib_sources)
+headers := $(wildcard common/include/*.h)
+
 dependencies := $(subst .c,.d,$(sources))
 objects := $(subst .c,.o,$(sources))
 
-executables := $(subst .c,,$(sources))
+executables := $(subst .c,,$(main_sources))
 
 CFLAGS += --pedantic -Wall -Werror -std=c11 -O3
-CPPFLAGS += -D_POSIX_C_SOURCE=2L
+CPPFLAGS += -Icommon/include -D_POSIX_C_SOURCE=2L
+LDFLAGS += -L.
+
+VPATH := common
 
 ############### Top level targets
 
@@ -25,6 +33,8 @@ clean:
 	@rm -f $(objects) 2>/dev/null
 	@echo "Deleting all dependency files"
 	@rm -f $(dependencies)
+	@echo "Deleting all archive files"
+	@rm -f *.a
 
 .PHONY: distclean
 distclean: clean
@@ -58,3 +68,7 @@ endif
 
 %.d: %.c
 	$(call make-dependencies, $<,$(subst .d,.o,$@),$@)
+
+$(executables): libtcpl.a
+
+libtcpl.a: $(patsubst %,libtcpl.a(%),$(subst .c,.o,$(foreach file,$(lib_sources),$(notdir $(file)))))

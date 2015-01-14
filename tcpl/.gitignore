@@ -1,3 +1,10 @@
 *
+
 !*.c
+!*.h
+
+!.gitignore
 !Makefile
+
+!common
+!common/include
