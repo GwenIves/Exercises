@@ -1,5 +1,21 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "utils.h"
+
+ssize_t x_getline (char ** line, FILE * file) {
+	size_t allocated = 0;
+
+	ssize_t len = getline (line, &allocated, file);
+
+	if (len == -1) {
+		free (*line);
+		return -1;
+	} else if ((*line)[len - 1] == '\n') {
+		(*line)[--len] = '\0';
+	}
+
+	return len;
+}
 
 /*
  * Prints a histogram of size non-negative values
