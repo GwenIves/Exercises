@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-int main () {
+int main (void) {
 	int tabs = 0;
 	int blanks = 0;
 	int newlines = 0;

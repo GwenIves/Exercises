@@ -73,7 +73,7 @@ void print_histogram (int * values_in, size_t size, bool vertical, int scale) {
 
 		printf ("   ");
 
-		for (size_t i = 0; i < max_value; i++)
+		for (int i = 0; i < max_value; i++)
 			putchar ('-');
 
 		putchar ('\n');

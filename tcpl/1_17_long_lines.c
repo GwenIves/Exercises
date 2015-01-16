@@ -7,7 +7,7 @@
 
 #define MIN_LENGTH	40
 
-int main () {
+int main (void) {
 	char * line = NULL;
 	ssize_t len = 0;
 

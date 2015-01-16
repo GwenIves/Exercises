@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include "utils.h"
 
-int main () {
+int main (void) {
 	char * line = NULL;
 	ssize_t len = 0;
 

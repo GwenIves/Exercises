@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-int main () {
+int main (void) {
 	bool in_blanks = false;
 
 	int c = 0;

@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-int main () {
+int main (void) {
 	int c = 0;
 
 	while ((c = getchar ()) != EOF) {

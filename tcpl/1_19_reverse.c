@@ -7,7 +7,7 @@
 
 static void reverse (char *, size_t len);
 
-int main () {
+int main (void) {
 	char * line = NULL;
 	ssize_t len = 0;
 
