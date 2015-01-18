@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 ssize_t x_getline (char **, FILE *);
+void * x_realloc (void *, size_t);
 
 void print_histogram (int *, size_t, bool, int);
 

@@ -17,6 +17,17 @@ ssize_t x_getline (char ** line, FILE * file) {
 	return len;
 }
 
+void * x_realloc (void * ptr, size_t size) {
+	void * mem = realloc (ptr, size);
+
+	if (size > 0 && !mem) {
+		fprintf (stderr, "Unable to allocate memory\n");
+		exit (EXIT_FAILURE);
+	}
+
+	return mem;
+}
+
 /*
  * Prints a histogram of size non-negative values
  * If scale > 0, all values are proportionately scaled so that max == scale
