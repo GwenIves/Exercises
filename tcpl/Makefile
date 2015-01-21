@@ -21,7 +21,7 @@ VPATH := common
 ############### Top level targets
 
 .PHONY: build
-build:  $(executables)
+build: $(executables)
 
 .PHONY: all
 all: build tags
