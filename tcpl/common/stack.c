@@ -30,6 +30,6 @@ int int_stack_pop (int_stack_t * stack) {
 	return stack->payload[--stack->used];
 }
 
-bool int_stack_empty (int_stack_t * stack) {
+bool int_stack_empty (const int_stack_t * stack) {
 	return stack->used == 0;
 }

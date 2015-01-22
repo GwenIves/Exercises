@@ -9,7 +9,7 @@
 
 #define MAX_LINE_LEN	80
 
-static int find_line_break (char *, ssize_t, int);
+static int find_line_break (const char *, ssize_t, int);
 
 int main (void) {
 	char * line = NULL;
@@ -33,7 +33,7 @@ int main (void) {
 	return 0;
 }
 
-static int find_line_break (char * line, ssize_t len, int max_size) {
+static int find_line_break (const char * line, ssize_t len, int max_size) {
 	if (len <= max_size)
 		return len;
 

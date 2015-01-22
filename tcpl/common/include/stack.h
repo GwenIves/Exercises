@@ -14,6 +14,6 @@ int_stack_t int_stack_create (void);
 void int_stack_delete (int_stack_t *);
 void int_stack_push (int_stack_t *, int);
 int int_stack_pop (int_stack_t *);
-bool int_stack_empty (int_stack_t *);
+bool int_stack_empty (const int_stack_t *);
 
 #endif

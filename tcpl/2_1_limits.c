@@ -43,7 +43,7 @@ typedef struct {
 } limits_t;
 
 static void print_system_limits (void);
-static void print_report (limits_t *);
+static void print_report (const limits_t *);
 
 int main (void) {
 	print_system_limits ();
@@ -137,7 +137,7 @@ static long double long_double_min (void) {
 	return long_double_repr.d;
 }
 
-static void print_report (limits_t * limits) {
+static void print_report (const limits_t * limits) {
 	printf (" %-30s%u\n", "Lowest unsigned char", limits->uchar_min);
 	printf (" %-30s%u\n", "Highest unsigned char", limits->uchar_max);
 

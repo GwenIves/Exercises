@@ -33,7 +33,7 @@ void * x_realloc (void * ptr, size_t size) {
  * If scale > 0, all values are proportionately scaled so that max == scale
  * draws either vertically or horizontally based on the vertical flag value
  */
-void print_histogram (int * values_in, size_t size, bool vertical, int scale) {
+void print_histogram (const int * values_in, size_t size, bool vertical, int scale) {
 	int max_value = values_in[0];
 
 	for (size_t i = 1; i < size; i++)
