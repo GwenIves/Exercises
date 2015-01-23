@@ -8,6 +8,7 @@
 static unsigned long setbits (unsigned long, size_t, size_t, unsigned long);
 static unsigned long invertbits (unsigned long, size_t, size_t);
 static unsigned long rightrotate (unsigned long, size_t);
+static size_t bitcount (unsigned long);
 
 int main (int argc, char ** argv) {
 	if (argc != 2)
@@ -23,6 +24,8 @@ int main (int argc, char ** argv) {
 
 	printf ("%-30s%lu\n", "rightrotate 3", rightrotate (num, 3));
 	printf ("%-30s%lu\n", "rightrotate 10", rightrotate (num, 10));
+
+	printf ("%-30s%lu\n", "bitcount", bitcount (num));
 
 	return 0;
 }
@@ -55,4 +58,16 @@ static unsigned long rightrotate (unsigned long bits, size_t size) {
 	right_side <<= ((sizeof (bits) << 3) - size);
 
 	return bits | right_side;
+}
+
+static size_t bitcount (unsigned long num) {
+	size_t count = 0;
+
+	while (num > 0) {
+		count++;
+
+		num &= num - 1;
+	}
+
+	return count;
 }
