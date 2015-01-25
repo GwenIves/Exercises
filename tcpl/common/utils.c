@@ -2,6 +2,27 @@
 #include <stdlib.h>
 #include "utils.h"
 
+void x_gettimeofday (struct timeval * tv) {
+	if (gettimeofday (tv, NULL) == -1) {
+		fprintf (stderr, "Unable to retrieve local time\n");
+		exit (EXIT_FAILURE);
+	}
+}
+
+struct timeval time_diff (struct timeval * before, struct timeval * after) {
+	struct timeval diff;
+
+	diff.tv_sec = after->tv_sec - before->tv_sec;
+	diff.tv_usec = after->tv_usec - before->tv_usec;
+
+	if (diff.tv_usec < 0) {
+		diff.tv_usec += 1000000;
+		diff.tv_sec--;
+	}
+
+	return diff;
+}
+
 ssize_t x_getline (char ** line, FILE * file) {
 	size_t allocated = 0;
 
@@ -15,6 +36,17 @@ ssize_t x_getline (char ** line, FILE * file) {
 	}
 
 	return len;
+}
+
+void * x_malloc (size_t size) {
+	void * mem = malloc (size);
+
+	if (!mem) {
+		fprintf (stderr, "Unable to allocate memory\n");
+		exit (EXIT_FAILURE);
+	}
+
+	return mem;
 }
 
 void * x_realloc (void * ptr, size_t size) {
@@ -89,4 +121,11 @@ void print_histogram (const int * values_in, size_t size, bool vertical, int sca
 
 		putchar ('\n');
 	}
+}
+
+int int_cmp (const void * a, const void * b) {
+	int aa = * ((int *) a);
+	int bb = * ((int *) b);
+
+	return aa - bb;
 }
