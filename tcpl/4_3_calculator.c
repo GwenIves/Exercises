@@ -119,7 +119,7 @@ static bool handle_token (double_stack_t * stack, double * saved_values, const t
 			return true;
 		case TOK_MOD:
 			if (!pop_2op (stack, &op1, &op2)) {
-				fprintf (stderr, "Missing operand for %\n");
+				fprintf (stderr, "Missing operand for %%\n");
 				return false;
 			} else if (ABS (op2) < EPS) {
 				fprintf (stderr, "Division by zero\n");
