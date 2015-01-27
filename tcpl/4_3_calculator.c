@@ -13,6 +13,7 @@
 typedef struct {
 	int type;
 	double val;
+	size_t mem;
 } token_t;
 
 enum tokens {
@@ -22,15 +23,18 @@ enum tokens {
 	TOK_DUP, TOK_SWAP, TOK_MEM_SAVE, TOK_MEM_LOAD
 };
 
-static bool handle_token (double_stack_t *, const token_t *);
+static bool handle_token (double_stack_t *, double *, const token_t *);
 static void get_next_token (const char *, token_t *);
 static bool pop_2op (double_stack_t *, double *, double *);
 static const char * extract_value (const char *, token_t *);
+
+#define MEMORY_SLOTS ('Z' - 'A' + 1)
 
 int main (void) {
 	char * line = NULL;
 
 	double_stack_t stack = double_stack_create ();
+	double saved_values[MEMORY_SLOTS] = { 0.0 };
 
 	while (x_getline (&line, stdin) != -1) {
 		token_t token;
@@ -38,7 +42,7 @@ int main (void) {
 		get_next_token (line, &token);
 
 		while (true) {
-			if (!handle_token (&stack, &token))
+			if (!handle_token (&stack, saved_values, &token))
 				break;
 
 			get_next_token (NULL, &token);
@@ -52,7 +56,7 @@ int main (void) {
 	return 0;
 }
 
-static bool handle_token (double_stack_t * stack, const token_t * token) {
+static bool handle_token (double_stack_t * stack, double * saved_values, const token_t * token) {
 	switch (token->type) {
 		double op1 = 0.0;
 		double op2 = 0.0;
@@ -104,7 +108,7 @@ static bool handle_token (double_stack_t * stack, const token_t * token) {
 			return true;
 		case TOK_DIV:
 			if (!pop_2op (stack, &op1, &op2)) {
-				fprintf (stderr, "Missing operand for *\n");
+				fprintf (stderr, "Missing operand for /\n");
 				return false;
 			} else if (ABS (op2) < EPS) {
 				fprintf (stderr, "Division by zero\n");
@@ -115,7 +119,7 @@ static bool handle_token (double_stack_t * stack, const token_t * token) {
 			return true;
 		case TOK_MOD:
 			if (!pop_2op (stack, &op1, &op2)) {
-				fprintf (stderr, "Missing operand for *\n");
+				fprintf (stderr, "Missing operand for %\n");
 				return false;
 			} else if (ABS (op2) < EPS) {
 				fprintf (stderr, "Division by zero\n");
@@ -167,6 +171,22 @@ static bool handle_token (double_stack_t * stack, const token_t * token) {
 
 			double_stack_push (stack, sin (double_stack_pop (stack)));
 			return true;
+		case TOK_MEM_SAVE:
+			if (token->mem < MEMORY_SLOTS) {
+				double val = 0.0;
+
+				if (!double_stack_empty (stack))
+					val = double_stack_top (stack);
+
+				saved_values[token->mem] = val;
+			}
+
+			return true;
+		case TOK_MEM_LOAD:
+			if (token->mem < MEMORY_SLOTS)
+				double_stack_push (stack, saved_values[token->mem]);
+
+			return true;
 		default:
 			return false;
 	}
@@ -208,6 +228,7 @@ static void get_next_token (const char * str, token_t * t) {
 
 	t->type = TOK_INVALID;
 	t->val = 0.0;
+	t->mem = 0;
 
 	if (str)
 		s = str;
@@ -242,6 +263,19 @@ static void get_next_token (const char * str, token_t * t) {
 		} else if (!strncmp (s, "pow", 3)) {
 			t->type = TOK_POW;
 			s += 3;
+		} else {
+			t->type = TOK_INVALID;
+			s++;
+		}
+	} else if (isupper (*s)) {
+		t->type = TOK_MEM_LOAD;
+		t->mem = *s - 'A';
+		s++;
+	} else if (*s == '&') {
+		if (isupper (s[1])) {
+			t->type = TOK_MEM_SAVE;
+			t->mem = s[1] - 'A';
+			s += 2;
 		} else {
 			t->type = TOK_INVALID;
 			s++;
