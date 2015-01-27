@@ -8,13 +8,13 @@
 #include <math.h>
 #include "utils.h"
 
-static double atof (const char *);
+static double x_atof (const char *);
 
 int main (void) {
 	char * line = NULL;
 
 	while (x_getline (&line, stdin) != -1) {
-		printf ("%.8g\n", atof (line));
+		printf ("%.8g\n", x_atof (line));
 
 		free (line);
 	}
@@ -22,7 +22,7 @@ int main (void) {
 	return 0;
 }
 
-static double atof (const char * str) {
+static double x_atof (const char * str) {
 	while (isspace (*str))
 		str++;
 

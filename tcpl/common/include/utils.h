@@ -5,6 +5,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#define EPS	0.000001
+
+#define ABS(x)	((x) < 0 ? -(x) : (x))
+
 void x_gettimeofday (struct timeval *);
 struct timeval time_diff (struct timeval *, struct timeval *);
 
