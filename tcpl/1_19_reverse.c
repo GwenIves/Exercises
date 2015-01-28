@@ -7,7 +7,12 @@
 #include <unistd.h>
 #include "utils.h"
 
-static void swap (char *, size_t, size_t);
+#define swap(t,a,i,j) do { \
+	t temp = a[i]; \
+	a[i] = a[j]; \
+	a[j] = temp; \
+} while (false)
+
 static void reverse (char *, size_t len);
 static void reverse_rec (char *, int, int);
 
@@ -52,7 +57,7 @@ static void reverse (char * line, size_t len) {
 	size_t end = len - 1;
 
 	while (start < end) {
-		swap (line, start, end);
+		swap (char, line, start, end);
 
 		start++;
 		end--;
@@ -61,14 +66,7 @@ static void reverse (char * line, size_t len) {
 
 static void reverse_rec (char * line, int from, int to) {
 	if (from < to) {
-		swap (line, from, to);
+		swap (char, line, from, to);
 		reverse_rec (line, from + 1, to - 1);
 	}
-}
-
-static void swap (char * str, size_t i, size_t j) {
-	char temp = str[i];
-
-	str[i] = str[j];
-	str[j] = temp;
 }
