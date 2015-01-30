@@ -1,4 +1,7 @@
+#include <string.h>
+#include <stdlib.h>
 #include "tcpl_utils.h"
+#include "utils.h"
 
 int c_parse_next_state (int state, int c) {
 	int new_state = state;
@@ -71,4 +74,41 @@ int c_parse_next_state (int state, int c) {
 	}
 
 	return new_state;
+}
+
+// Parse a comma-separated tab-stops list. Returns an integer array terminated by -1
+int * get_tablist (char * str) {
+	size_t count = 0;
+
+	int prev_val = 0;
+
+	char * s_ptr = strtok (str, ",");
+
+	do {
+		int val = atoi (s_ptr);
+
+		if (val > prev_val) {
+			count++;
+			prev_val = val;
+
+			// Undo strtok modifications of str
+			if (s_ptr > str)
+				s_ptr[-1] = ',';
+		} else
+			break;
+	} while ((s_ptr = strtok (NULL, ",")) != NULL);
+
+	if (count == 0)
+		return NULL;
+
+	int * vals = x_malloc ((count + 1) * sizeof (int));
+
+	s_ptr = strtok (str, ",");
+
+	for (size_t i = 0; i < count; i++, s_ptr = strtok (NULL, ","))
+		vals[i] = atoi (s_ptr);
+
+	vals[count] = -1;
+
+	return vals;
 }

@@ -5,8 +5,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "tcpl_utils.h"
 
 #define DEFAULT_TABSIZE	8
+
+static int print_spaces (int, int, int *);
 
 int main (int argc, char ** argv) {
 	int column = 0;
@@ -15,8 +18,9 @@ int main (int argc, char ** argv) {
 	int arg = 0;
 
 	int tabsize = DEFAULT_TABSIZE;
+	int * tablist = NULL;
 
-	while ((arg = getopt (argc, argv, "m:")) != -1) {
+	while ((arg = getopt (argc, argv, "m:M:")) != -1) {
 		switch (arg) {
 			int val = 0;
 
@@ -27,6 +31,9 @@ int main (int argc, char ** argv) {
 					tabsize = val;
 
 				break;
+			case 'M':
+				tablist = get_tablist (optarg);
+				break;
 			case '?':
 			default:
 				break;
@@ -35,10 +42,7 @@ int main (int argc, char ** argv) {
 
 	while ((c = getchar ()) != EOF) {
 		if (c == '\t') {
-			do {
-				putchar (' ');
-				column++;
-			} while (column % tabsize != 0);
+			column = print_spaces (column, tabsize, tablist);
 		} else if (c == '\n') {
 			putchar (c);
 			column = 0;
@@ -48,5 +52,30 @@ int main (int argc, char ** argv) {
 		}
 	}
 
+	free (tablist);
+
 	return 0;
+}
+
+static int print_spaces (int column, int tabsize, int * tabstops) {
+	if (tabstops) {
+		int tabstop = 0;
+
+		while ((tabstop = *tabstops++) != -1) {
+			if (column >= tabstop)
+				continue;
+			else {
+				while (column++ < tabstop)
+					putchar (' ');
+
+				return column;
+			}
+		}
+	}
+
+	do {
+		putchar (' ');
+	} while (++column % tabsize != 0);
+
+	return column;
 }
