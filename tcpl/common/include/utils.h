@@ -17,6 +17,8 @@ void * x_malloc (size_t);
 void * x_realloc (void *, size_t);
 
 int int_cmp (const void *, const void *);
+int string_cmp (const void *, const void *);
+int string_case_cmp (const void *, const void *);
 
 void print_histogram (const int *, size_t, bool, int);
 

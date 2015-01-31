@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <strings.h>
 #include "utils.h"
 
 void x_gettimeofday (struct timeval * tv) {
@@ -128,4 +130,12 @@ int int_cmp (const void * a, const void * b) {
 	int bb = * ((int *) b);
 
 	return aa - bb;
+}
+
+int string_cmp (const void * a, const void * b) {
+	return strcmp (* (char **) a, * (char **) b);
+}
+
+int string_case_cmp (const void * a, const void * b) {
+	return strcasecmp (* (char **) a, * (char **) b);
 }
