@@ -9,7 +9,8 @@ objects := $(subst .cpp,.o,$(sources))
 
 executables := $(subst .cpp,,$(main_sources))
 
-CXXFLAGS += -std=c++11 -O3
+WARNINGS := -Werror --pedantic -Wall -Wextra -Winit-self -Wswitch-default -Wfloat-equal -Wshadow -Wwrite-strings
+CXXFLAGS += $(WARNINGS) -std=c++11 -O3
 
 .o:
 	$(LINK.cc) $^ -o $@
