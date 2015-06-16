@@ -1,8 +1,9 @@
 ############### Definitions
 
 main_sources := $(wildcard *.cpp)
+lib_sources := $(wildcard common/*.cpp)
 
-sources := $(main_sources)
+sources := $(main_sources) $(lib_sources)
 
 dependencies := $(subst .cpp,.d,$(sources))
 objects := $(subst .cpp,.o,$(sources))
@@ -11,6 +12,10 @@ executables := $(subst .cpp,,$(main_sources))
 
 WARNINGS := -Werror --pedantic -Wall -Wextra -Winit-self -Wswitch-default -Wfloat-equal -Wshadow -Wwrite-strings
 CXXFLAGS += $(WARNINGS) -std=c++11 -O3
+CPPFLAGS += -Icommon/include
+LDFLAGS += -L.
+
+VPATH := common
 
 .o:
 	$(LINK.cc) $^ -o $@
@@ -66,3 +71,7 @@ endif
 
 %.d: %.cpp
 	$(call make-dependencies, $<,$(subst .d,.o,$@),$@)
+
+$(executables): libaicpp.a
+
+libaicpp.a: $(patsubst %,libaicpp.a(%),$(subst .cpp,.o,$(foreach file,$(lib_sources),$(notdir $(file)))))
