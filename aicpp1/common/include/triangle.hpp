@@ -2,6 +2,7 @@
 #define TRIANGLE_H_
 
 #include "point.hpp"
+#include "math_utils.hpp"
 
 class Triangle {
 	public:
@@ -12,8 +13,6 @@ class Triangle {
 		Point x;
 		Point y;
 		Point z;
-
-		double frand ();
 };
 
 #endif

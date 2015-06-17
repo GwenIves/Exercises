@@ -2,10 +2,6 @@
 #include <cmath>
 #include "triangle.hpp"
 
-double Triangle::frand () {
-	return (double) rand () / RAND_MAX;
-}
-
 double Triangle::area () {
 	double a = x.distance (y);
 	double b = y.distance (z);

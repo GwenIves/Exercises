@@ -16,4 +16,20 @@ class Point {
 		double y;
 };
 
+class PointMD {
+	public:
+		PointMD (int);
+		PointMD (const PointMD &);
+		~PointMD ();
+
+		PointMD & operator= (const PointMD &);
+
+		double distance (const PointMD &);
+	private:
+		int dimensions;
+		double * coords;
+
+		void copy_coords (const PointMD &);
+};
+
 #endif
