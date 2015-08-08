@@ -3,4 +3,4 @@ binaries :=  $(subst .erl,.beam,$(sources))
 
 .PHONY: clean
 clean:
-	rm -f $(binaries) 2>/dev/null
+	@rm -f $(binaries) 2>/dev/null
