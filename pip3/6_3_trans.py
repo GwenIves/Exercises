@@ -3,7 +3,7 @@
 import pickle
 import os
 
-class Transaction(Object):
+class Transaction(object):
     def __init__(self, amount, date, ccy="USD", usd_conv_rate=1.0, desc=None):
         self.__amount = amount
         self.__date = date
@@ -38,7 +38,7 @@ class Transaction(Object):
 class SavingError(Exception): pass
 class LoadingError(Exception): pass
 
-class Account(Object):
+class Account(object):
     def __init__(self, acc_no, acc_name, transactions=list()):
         self.__acc_no = acc_no
         self.__transactions = transactions

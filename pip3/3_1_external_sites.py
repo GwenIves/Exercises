@@ -8,7 +8,7 @@ def main():
 
     for filename in sys.argv[1:]:
         try:
-            with open(filename) as open_file
+            with open(filename) as open_file:
                 for line in open_file:
                     add_sites(line, sites, filename)
         except EnvironmentError as err:
