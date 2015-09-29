@@ -115,4 +115,5 @@ def main ():
 	for path in args.paths:
 		process_path (path, args)
 
-main ()
+if __name__ == '__main__':
+    main ()

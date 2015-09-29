@@ -96,4 +96,5 @@ def main ():
 	print (d // 3)
 	print ()
 
-main ()
+if __name__ == '__main__':
+    main ()

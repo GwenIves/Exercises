@@ -251,4 +251,5 @@ def main ():
 	brf_test ()
 	inventory_test ()
 
-main ()
+if __name__ == '__main__':
+    main ()

@@ -89,4 +89,5 @@ def get_user_line (user):
 	return "{0:.<{nw}.{nw}} ({1.id:4}) {1.username:{uw}}".format (
 		name, user, nw = NAME_WIDTH, uw = USERNAME_WIDTH)
 
-main ()
+if __name__ == '__main__':
+    main ()

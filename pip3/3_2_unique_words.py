@@ -19,4 +19,5 @@ def main ():
 	for word, count in sorted (words.items (), key=lambda pair: pair[1], reverse=True):
 		print ("'{}' occurs {} time{}".format (word, count, "s" if count > 1 else ""))
 
-main ()
+if __name__ == '__main__':
+    main ()

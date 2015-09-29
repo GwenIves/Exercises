@@ -84,4 +84,5 @@ def main ():
 	for f in args.files:
 		dump_file (f, args)
 
-main()
+if __name__ == '__main__':
+    main ()

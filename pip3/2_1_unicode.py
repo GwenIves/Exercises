@@ -33,4 +33,5 @@ def print_table (words):
 def main ():
 	print_table (sys.argv[1:])
 
-main ()
+if __name__ == '__main__':
+    main ()

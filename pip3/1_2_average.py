@@ -45,4 +45,5 @@ def main ():
 		fmt = "Count = {} Sum = {} Lowest = {} Highest = {} Mean = {} Median = {}"
 		print (fmt.format (count, num_sum, min (numbers), max (numbers), num_sum / count, median))
 
-main ()
+if __name__ == '__main__':
+    main ()

@@ -55,4 +55,5 @@ def main ():
 		print ("Root1: {}".format (x1))
 		print ("Root2: {}".format (x2))
 
-main ()
+if __name__ == '__main__':
+    main ()

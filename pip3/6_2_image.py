@@ -214,4 +214,5 @@ def main ():
 
 	print (new_image.width, new_image.height, len (new_image.colors ()), new_image.background)
 
-main ()
+if __name__ == '__main__':
+    main ()

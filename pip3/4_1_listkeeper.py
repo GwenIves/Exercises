@@ -171,4 +171,5 @@ def process_file (filename):
 
 			break
 
-main ()
+if __name__ == '__main__':
+    main ()

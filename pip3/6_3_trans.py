@@ -138,4 +138,5 @@ def main ():
 	print (b.all_usd)
 	print (b.balance)
 
-main ()
+if __name__ == '__main__':
+    main ()

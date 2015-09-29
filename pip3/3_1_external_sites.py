@@ -41,4 +41,5 @@ def print_sites (sites):
 		for filename in sorted (sites[site], key=str.lower):
 			print ("\t{}".format (filename))
 
-main ()
+if __name__ == '__main__':
+    main ()
