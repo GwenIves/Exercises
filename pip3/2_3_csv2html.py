@@ -9,94 +9,94 @@ import xml.sax.saxutils
 max_width = 100
 
 def print_start():
-	print("<table border='1'>")
+    print("<table border='1'>")
 
 def print_end():
-	print("</table>")
+    print("</table>")
 
 def extract_fields(line):
-	try:
-		reader = csv.reader(io.StringIO(line), delimiter = ',')
-		return list(reader)[0]
-	except IndexError:
-		return []
+    try:
+        reader = csv.reader(io.StringIO(line), delimiter = ',')
+        return list(reader)[0]
+    except IndexError:
+        return []
 
 def print_line(line, options):
-	print("<tr bgcolor='{}'>".format(options["color"]))
+    print("<tr bgcolor='{}'>".format(options["color"]))
 
-	fields = extract_fields(line)
+    fields = extract_fields(line)
 
-	maxwidth = options["maxwidth"]
+    maxwidth = options["maxwidth"]
 
-	for field in fields:
-		if not field:
-			print("<td></td>")
-		else:
-			try:
-				x = float(field.replace(",", ""))
-				print("<td align='right'>{0:{1}}</td>".format(round(x), options["format"]))
-			except ValueError:
-				field = field.title()
+    for field in fields:
+        if not field:
+            print("<td></td>")
+        else:
+            try:
+                x = float(field.replace(",", ""))
+                print("<td align='right'>{0:{1}}</td>".format(round(x), options["format"]))
+            except ValueError:
+                field = field.title()
 
-				if len(field) > maxwidth:
-					field = field[:maxwidth] + "..."
+                if len(field) > maxwidth:
+                    field = field[:maxwidth] + "..."
 
-				field = xml.sax.saxutils.escape(field)
-				print("<td>{}</td>".format(field))
+                field = xml.sax.saxutils.escape(field)
+                print("<td>{}</td>".format(field))
 
-	print("</tr>")
+    print("</tr>")
 
 def process_options():
-	parser = optparse.OptionParser()
+    parser = optparse.OptionParser()
 
-	parser.add_option("-w", "--maxwidth", help = "Maximum width of string fields(100 default)", default = 100)
-	parser.add_option("-f", "--format", help = "Print format for numeric fields(.0f default)", default = ".0f")
+    parser.add_option("-w", "--maxwidth", help = "Maximum width of string fields(100 default)", default = 100)
+    parser.add_option("-f", "--format", help = "Print format for numeric fields(.0f default)", default = ".0f")
 
-	(opts, args) = parser.parse_args()
+    (opts, args) = parser.parse_args()
 
-	options = {}
+    options = {}
 
-	try:
-		"{0:{1}}".format(1.0, opts.format)
-		options["format"] = opts.format
-	except ValueError:
-		options["format"] = ".0f"
+    try:
+        "{0:{1}}".format(1.0, opts.format)
+        options["format"] = opts.format
+    except ValueError:
+        options["format"] = ".0f"
 
-	try:
-		if 10 < int(opts.maxwidth) < 1000:
-			options["maxwidth"] = int(opts.maxwidth)
-		else:
-			options["maxwidth"] = 100
-	except ValueError:
-		options["maxwidth"] = 100
+    try:
+        if 10 < int(opts.maxwidth) < 1000:
+            options["maxwidth"] = int(opts.maxwidth)
+        else:
+            options["maxwidth"] = 100
+    except ValueError:
+        options["maxwidth"] = 100
 
-	return options
+    return options
 
 def main():
-	opts = process_options()
+    opts = process_options()
 
-	print_start()
+    print_start()
 
-	lineno = 0
+    lineno = 0
 
-	while True:
-		try:
-			line = input()
+    while True:
+        try:
+            line = input()
 
-			if lineno == 0:
-				opts["color"] = "lightgreen"
-			elif lineno % 2 == 0:
-				opts["color"] = "white"
-			else:
-				opts["color"] = "lightyellow"
+            if lineno == 0:
+                opts["color"] = "lightgreen"
+            elif lineno % 2 == 0:
+                opts["color"] = "white"
+            else:
+                opts["color"] = "lightyellow"
 
-			print_line(line, opts)
+            print_line(line, opts)
 
-			lineno += 1
-		except EOFError:
-			break
+            lineno += 1
+        except EOFError:
+            break
 
-	print_end()
+    print_end()
 
 if __name__ == '__main__':
     main()
