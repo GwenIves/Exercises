@@ -4,7 +4,7 @@ import os
 import struct
 import tempfile
 
-class BinaryRecordFile:
+class BinaryRecordFile(Object):
 	def __init__ (self, filename, record_size):
 		self.__record_size = record_size
 
@@ -61,7 +61,7 @@ class BinaryRecordFile:
 
 		return self.__fh.tell () // self.__record_size
 
-class BikeStock:
+class BikeStock(Object):
 	_BIKE_STRUCT = struct.Struct ("<8s30sid")
 
 	def __init__ (self, identifier, name, quantity, price):
@@ -135,7 +135,7 @@ class BikeStock:
 		return "{} @ {} of {} ({})".format (self.quantity, self.price, self.identifier, self.name)
 
 
-class BikeInventory:
+class BikeInventory(Object):
 	def __init__ (self, filename):
 		self.__file = BinaryRecordFile (filename, BikeStock._BIKE_STRUCT.size)
 		self.__id_to_index = {}

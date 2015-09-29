@@ -10,7 +10,7 @@ class LoadError (ImageError): pass
 class SaveError (ImageError): pass
 class ExportError (ImageError): pass
 
-class Image:
+class Image(Object):
 	RED = "#FF0000"
 	GREEN = "#00FF00"
 	BLUE = "#0000FF"

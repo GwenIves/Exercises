@@ -2,7 +2,7 @@
 
 import math
 
-class point:
+class Point(Object):
 	def __init__ (self, x=0, y=0):
 		self.x = x
 		self.y = y
@@ -11,13 +11,13 @@ class point:
 		return self.x == other.x and self.y == other.y
 
 	def __repr__ (self):
-		return "point({0.x!r}, {0.y!r})".format (self)
+		return "Point({0.x!r}, {0.y!r})".format (self)
 
 	def __str__ (self):
 		return "({0.x!s}, {0.y!s})".format (self)
 
 	def __add__ (self, other):
-		return point (self.x + other.x, self.y + other.y)
+		return Point (self.x + other.x, self.y + other.y)
 
 	def __iadd__ (self, other):
 		self.x += other.x
@@ -26,7 +26,7 @@ class point:
 		return self
 
 	def __sub__ (self, other):
-		return point (self.x - other.x, self.y - other.y)
+		return Point (self.x - other.x, self.y - other.y)
 
 	def __isub__ (self, other):
 		self.x -= other.x
@@ -35,7 +35,7 @@ class point:
 		return self
 
 	def __mul__ (self, n):
-		return point (self.x * n, self.y * n)
+		return Point (self.x * n, self.y * n)
 
 	def __imul__ (self, n):
 		self.x *= n
@@ -44,7 +44,7 @@ class point:
 		return self
 
 	def __truediv__ (self, n):
-		return point (self.x / n, self.y / n)
+		return Point (self.x / n, self.y / n)
 
 	def __itruediv__ (self, n):
 		self.x /= n
@@ -53,7 +53,7 @@ class point:
 		return self
 
 	def __floordiv__ (self, n):
-		return point (self.x // n, self.y // n)
+		return Point (self.x // n, self.y // n)
 
 	def __ifloordiv__ (self, n):
 		self.x //= n
@@ -65,8 +65,8 @@ class point:
 		return math.hypot (self.x, self.y)
 
 def main ():
-	a = point ()
-	b = point (3, 4)
+	a = Point ()
+	b = Point (3, 4)
 
 	print (a)
 	print ("{!r}".format (b))
@@ -80,11 +80,11 @@ def main ():
 	print (b == c)
 	print ()
 
-	a += point (1, 1)
+	a += Point (1, 1)
 	print (a)
 	print ()
 
-	c -= point (1, 1)
+	c -= Point (1, 1)
 	print (c)
 	print ()
 
