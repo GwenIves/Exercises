@@ -17,7 +17,7 @@ def main():
     for filename in sys.argv[1:]:
         try:
             with open(filename) as open_file:
-                for line in open(filename):
+                for line in open_file:
                     line.rstrip()
 
                     if not line:
@@ -40,7 +40,7 @@ def generate_username(fields, usernames):
     mappings = {ord("-") : None, ord("'") : None}
 
     surname = fields[SURNAME].translate(mappings)
-    username = fields[FORENAME][0] + fields[MIDDLENAME][:1] + surname;
+    username = fields[FORENAME][0] + fields[MIDDLENAME][:1] + surname
     username = username[:8].lower()
 
     usernames[username] += 1
@@ -48,7 +48,7 @@ def generate_username(fields, usernames):
     return username + str(usernames[username])
 
 def print_users(users):
-    users.sort(key=lambda user:((user.surname.lower(), user.forename.lower(), user.id)))
+    users.sort(key=lambda user: ((user.surname.lower(), user.forename.lower(), user.id)))
     lineno = 0
 
     while True:
@@ -76,9 +76,9 @@ def print_heading(should_break):
         print()
 
     print("{0:<{nw}} {1:^6} {2:{uw}} {0:<{nw}} {1:^6} {2:{uw}} ".format(
-        "Name", "ID", "Username", nw = NAME_WIDTH, uw = USERNAME_WIDTH))
+        "Name", "ID", "Username", nw=NAME_WIDTH, uw=USERNAME_WIDTH))
     print("{0:-<{nw}} {0:-<6} {0:-<{uw}} {0:-<{nw}} {0:-<6} {0:-<{uw}}".format(
-        "", nw = NAME_WIDTH, uw = USERNAME_WIDTH))
+        "", nw=NAME_WIDTH, uw=USERNAME_WIDTH))
 
 def print_line(user_a, user_b):
     print("{} {}".format(get_user_line(user_a), get_user_line(user_b)))
@@ -91,7 +91,7 @@ def get_user_line(user):
         user, " " + user.middlename[0] if user.middlename else "")
 
     return "{0:.<{nw}.{nw}}({1.id:4}) {1.username:{uw}}".format(
-        name, user, nw = NAME_WIDTH, uw = USERNAME_WIDTH)
+        name, user, nw=NAME_WIDTH, uw=USERNAME_WIDTH)
 
 if __name__ == '__main__':
     main()

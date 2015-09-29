@@ -10,7 +10,7 @@ class BinaryRecordFile(object):
 
         if os.path.exists(filename):
             self.__fh = open(filename, "r+b")
-            self.__size = self.__size()
+            self.__size = self.__get_size()
         else:
             self.__fh = open(filename, "w+b")
             self.__size = 0
@@ -26,10 +26,11 @@ class BinaryRecordFile(object):
         return self.__size
 
     def __setitem__(self, index, record):
-        if not isinstance(record,(bytes, bytearray)):
+        if not isinstance(record, (bytes, bytearray)):
             raise ValueError("Invalid type to set: " + type(record))
         elif len(record) != self.__record_size:
-            raise ValueError("Record to set must be exactly {} bytes long".format(self.__record_size))
+            raise ValueError("Record to set must be exactly {} bytes long".format(
+                self.__record_size))
 
         self.__seek_to_index(index)
         self.__fh.write(record)
@@ -56,7 +57,7 @@ class BinaryRecordFile(object):
 
         self.__fh.seek(index * self.__record_size)
 
-    def __size(self):
+    def __get_size(self):
         self.__fh.seek(0, os.SEEK_END)
 
         return self.__fh.tell() // self.__record_size
@@ -72,6 +73,10 @@ class BikeStock(object):
         self.name = name
         self.quantity = quantity
         self.price = price
+
+    @property
+    def size(self):
+        return self._BIKE_STRUCT.size
 
     @property
     def identifier(self):
@@ -116,20 +121,20 @@ class BikeStock(object):
 
     def to_record(self):
         return BikeStock._BIKE_STRUCT.pack(
-                self.identifier.encode("utf8"),
-                self.name.encode("utf8"),
-                self.quantity,
-                self.price)
+            self.identifier.encode("utf8"),
+            self.name.encode("utf8"),
+            self.quantity,
+            self.price)
 
     @staticmethod
     def from_record(record):
         record = BikeStock._BIKE_STRUCT.unpack(record)
 
         return BikeStock(
-                record[0].decode("utf8").rstrip("\x00"),
-                record[1].decode("utf8").rstrip("\x00"),
-                record[2],
-                record[3])
+            record[0].decode("utf8").rstrip("\x00"),
+            record[1].decode("utf8").rstrip("\x00"),
+            record[2],
+            record[3])
 
     def __str__(self):
         return "{} @ {} of {}({})".format(self.quantity, self.price, self.identifier, self.name)
@@ -137,7 +142,7 @@ class BikeStock(object):
 
 class BikeInventory(object):
     def __init__(self, filename):
-        self.__file = BinaryRecordFile(filename, BikeStock._BIKE_STRUCT.size)
+        self.__file = BinaryRecordFile(filename, BikeStock.size)
         self.__id_to_index = {}
 
         for index in range(len(self.__file)):

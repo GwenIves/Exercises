@@ -27,7 +27,7 @@ def get_new_file(extension):
         else:
             return filename
 
-def get_int(msg, minimum = None, maximum = None):
+def get_int(msg, minimum=None, maximum=None):
     while True:
         try:
             val = int(input(msg))
@@ -77,10 +77,10 @@ def get_choice(prompt, valid, default):
         else:
             return command.lower()
 
-def print_list(list, heading):
+def print_list(a_list, heading):
     print("\n{}\n".format(heading))
 
-    size = len(list)
+    size = len(a_list)
 
     if size < 10:
         width = 1
@@ -89,7 +89,7 @@ def print_list(list, heading):
     else:
         width = 3
 
-    for num, item in enumerate(list, 1):
+    for num, item in enumerate(a_list, 1):
         print("{0:>{2}} {1}".format(num, item, width))
 
     print()
@@ -126,7 +126,7 @@ def add_item(items, modified):
 
 def del_item(items):
     item = get_int("Remove item: ", 1, len(items))
-    del items [item - 1]
+    del items[item - 1]
 
 def save_items(items, filename):
     try:

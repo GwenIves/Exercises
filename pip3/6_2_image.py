@@ -45,9 +45,9 @@ class Image(object):
         return colors_set
 
     def __check_coordinate(self, coordinate):
-        if(len(coordinate) != 2 or
-                not(0 <= coordinate[0] < self.width) or
-                not(0 <= coordinate[1] < self.height)):
+        if len(coordinate) != 2 or
+                not (0 <= coordinate[0] < self.width) or
+                not (0 <= coordinate[1] < self.height):
             raise CoordinateError(str(coordinate))
 
     def __getitem__(self, coordinate):

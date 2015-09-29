@@ -27,9 +27,9 @@ def get_str(factor, variable):
 def main():
     print("ax^2 + bx + c = 0")
 
-    a = get_float("Enter a: ", False);
-    b = get_float("Enter b: ", True);
-    c = get_float("Enter c: ", True);
+    a = get_float("Enter a: ", False)
+    b = get_float("Enter b: ", True)
+    c = get_float("Enter c: ", True)
 
     D = b * b - 4 * a * c
 
@@ -42,8 +42,8 @@ def main():
         else:
             rD = cmath.sqrt(D)
 
-        x1 =(-b + rD) / 2 * a
-        x2 =(-b - rD) / 2 * a
+        x1 = (-b + rD) / 2 * a
+        x2 = (-b - rD) / 2 * a
 
     print()
     print("{}x^2{}{} = 0".format(a, get_str(b, "x"), get_str(c, "")))

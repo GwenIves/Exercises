@@ -39,9 +39,9 @@ class SavingError(Exception): pass
 class LoadingError(Exception): pass
 
 class Account(object):
-    def __init__(self, acc_no, acc_name, transactions=list()):
+    def __init__(self, acc_no, acc_name, transactions=None):
         self.__acc_no = acc_no
-        self.__transactions = transactions
+        self.__transactions = [] if not transactions else transactions
         self.__set_name(acc_name)
         self.__all_usd = self.__check_all_usd()
         self.__balance = self.__calculate_balance()
@@ -106,7 +106,7 @@ class Account(object):
         return os.path.join(directory, str(self.acc_no) + ".acc")
 
     def __check_all_usd(self):
-        return all(map(lambda t: t.ccy == "USD", self.__transactions))
+        return all([t.ccy == "USD" for t in self.__transactions])
 
     def __calculate_balance(self):
         return sum(t.usd for t in self.__transactions)

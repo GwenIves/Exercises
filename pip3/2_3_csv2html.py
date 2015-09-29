@@ -1,6 +1,5 @@
 #!/bin/env python3
 
-import sys
 import csv
 import io
 import optparse
@@ -16,7 +15,7 @@ def print_end():
 
 def extract_fields(line):
     try:
-        reader = csv.reader(io.StringIO(line), delimiter = ',')
+        reader = csv.reader(io.StringIO(line), delimiter=',')
         return list(reader)[0]
     except IndexError:
         return []
@@ -49,10 +48,12 @@ def print_line(line, options):
 def process_options():
     parser = optparse.OptionParser()
 
-    parser.add_option("-w", "--maxwidth", help = "Maximum width of string fields(100 default)", default = 100)
-    parser.add_option("-f", "--format", help = "Print format for numeric fields(.0f default)", default = ".0f")
+    parser.add_option("-w", "--maxwidth", default=100,
+                      help="Maximum width of string fields(100 default)")
+    parser.add_option("-f", "--format", default=".0f",
+                      help="Print format for numeric fields(.0f default)")
 
-    (opts, args) = parser.parse_args()
+    (opts, _) = parser.parse_args()
 
     options = {}
 
