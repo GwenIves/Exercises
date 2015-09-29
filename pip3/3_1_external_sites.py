@@ -7,8 +7,12 @@ def main ():
 	sites = collections.defaultdict (set)
 
 	for filename in sys.argv[1:]:
-		for line in open (filename):
-			add_sites (line, sites, filename)
+		try:
+			with open (filename) as open_file
+				for line in open_file:
+					add_sites (line, sites, filename)
+		except EnvironmentError as err:
+			print (err)
 
 	print_sites (sites)
 

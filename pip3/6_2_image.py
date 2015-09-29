@@ -92,28 +92,20 @@ class Image:
 			self.__data = new_data
 
 	def save (self):
-		fh = None
 		try:
-			data = [self.width, self.height, self.__background, self.__data]
-			fh = open (self.filename, "wb")
-			pickle.dump (data, fh, pickle.HIGHEST_PROTOCOL)
+			with open (self.filename, "wb") as fh:
+				data = [self.width, self.height, self.__background, self.__data]
+				pickle.dump (data, fh, pickle.HIGHEST_PROTOCOL)
 		except (EnvironmentError, pickle.PicklingError) as err:
 			raise SaveError (str (err))
-		finally:
-			if fh is not None:
-				fh.close ()
 
 	def load (self):
-		fh = None
 		try:
-			fh = open (self.filename, "rb")
-			data = pickle.load (fh)
-			(self.__width, self.__height, self.__background, self.__data) = data
+			with  open (self.filename, "rb") as fh:
+				data = pickle.load (fh)
+				(self.__width, self.__height, self.__background, self.__data) = data
 		except (EnvironmentError, pickle.UnpicklingError) as err:
 			raise LoadError (str (err))
-		finally:
-			if fh is not None:
-				fh.close ()
 
 	def export (self, filename):
 		if filename.lower().endswith (".xpm"):

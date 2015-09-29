@@ -15,14 +15,18 @@ def main ():
 	usernames = collections.defaultdict (int)
 
 	for filename in sys.argv[1:]:
-		for line in open (filename):
-			line.rstrip ()
+		try:
+			with open (filename) as open_file:
+				for line in open (filename):
+					line.rstrip ()
 
-			if not line:
-				continue
+					if not line:
+						continue
 
-			user = process_line (line, usernames)
-			users.append (user)
+					user = process_line (line, usernames)
+					users.append (user)
+		except EnvironmentError as err:
+			print (err)
 
 	print_users (users)
 

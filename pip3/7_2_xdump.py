@@ -24,46 +24,41 @@ def get_encoding (argument):
 	return encoding
 
 def dump_file (filename, args):
+	enc_str = "{} characters".format (args.encoding.upper())
+	enc_len = len (enc_str)
+	blk_len = 2 * args.blocksize + (args.blocksize - 1) // 4
+
+	print ("{}:".format (filename))
+	print ("{:<8}  {:<{}}  {:<{}}".format ("Block", "Bytes", blk_len, enc_str, enc_len))
+	print ("{:-<8}  {:-<{}}  {:-<{}}".format ("", "", blk_len, "", enc_len))
+
+	block_count = 1
+	block_fmt = "{:0>{}}  " if args.decimal else "{:0>{}x}  "
+
 	try:
-		f = None
-		f = open (filename, "rb")
+		with open (filename, "rb") as f:
+			while True:
+				block = f.read (args.blocksize)
 
-		enc_str = "{} characters".format (args.encoding.upper())
-		enc_len = len (enc_str)
-		blk_len = 2 * args.blocksize + (args.blocksize - 1) // 4
+				if not block:
+					break
 
-		print ("{}:".format (filename))
-		print ("{:<8}  {:<{}}  {:<{}}".format ("Block", "Bytes", blk_len, enc_str, enc_len))
-		print ("{:-<8}  {:-<{}}  {:-<{}}".format ("", "", blk_len, "", enc_len))
+				print (block_fmt.format (block_count, 8), end="")
+				block_count += 1
 
-		block_count = 1
-		block_fmt = "{:0>{}}  " if args.decimal else "{:0>{}x}  "
+				for index, byte in enumerate (block):
+					print ("{:0>2x}".format (block[index]), end="")
 
-		while True:
-			block = f.read (args.blocksize)
+					if index % 4 == 3:
+						print (" ", end="")
 
-			if not block:
-				break
+				print ("  ", end="")
 
-			print (block_fmt.format (block_count, 8), end="")
-			block_count += 1
+				chars = [c if c.isprintable() else "." for c in block.decode (args.encoding)]
 
-			for index, byte in enumerate (block):
-				print ("{:0>2x}".format (block[index]), end="")
-
-				if index % 4 == 3:
-					print (" ", end="")
-
-			print ("  ", end="")
-
-			chars = [c if c.isprintable() else "." for c in block.decode (args.encoding)]
-
-			print ("".join (chars))
+				print ("".join (chars))
 	except EnvironmentError:
 		print ("Error reading file {}".format (filename))
-	finally:
-		if f:
-			f.close()
 
 def main ():
 	parser = argparse.ArgumentParser(description="Show a hex dump of a binary file")

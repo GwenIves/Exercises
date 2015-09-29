@@ -83,34 +83,24 @@ class Account:
 		self.__transactions.append (transaction)
 
 	def save (self, directory):
-		fh = None
-
 		try:
-			fh = open (self.__get_account_file (directory), "wb")
-			data = [self.acc_name, self.__transactions]
-			pickle.dump (data, fh, pickle.HIGHEST_PROTOCOL)
+			with open (self.__get_account_file (directory), "wb") as fh:
+				data = [self.acc_name, self.__transactions]
+				pickle.dump (data, fh, pickle.HIGHEST_PROTOCOL)
 		except (EnvironmentError, pickle.PicklingError) as err:
 			raise SavingError (str (err))
-		finally:
-			if fh:
-				fh.close ()
 
 	def load (self, directory):
-		fh = None
-
 		try:
-			fh = open (self.__get_account_file (directory), "rb")
-			data = pickle.load (fh)
+			with open (self.__get_account_file (directory), "rb") as fh:
+				data = pickle.load (fh)
 
-			self.__set_name (data[0])
-			self.__transactions = data[1]
-			self.__all_usd = self.__check_all_usd ()
-			self.__balance = self.__calculate_balance ()
+				self.__set_name (data[0])
+				self.__transactions = data[1]
+				self.__all_usd = self.__check_all_usd ()
+				self.__balance = self.__calculate_balance ()
 		except (EnvironmentError, IndexError, pickle.UnpicklingError) as err:
 			raise LoadingError (str (err))
-		finally:
-			if fh:
-				fh.close ()
 
 	def __get_account_file (self, directory):
 		return os.path.join (directory, str (self.acc_no) + ".acc")
