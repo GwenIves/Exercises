@@ -29,8 +29,8 @@ class BinaryRecordFile(object):
         if not isinstance(record, (bytes, bytearray)):
             raise ValueError("Invalid type to set: " + type(record))
         elif len(record) != self.__record_size:
-            raise ValueError("Record to set must be exactly {} bytes long".format(
-                self.__record_size))
+            raise ValueError("Record to set must be exactly {} bytes long {}".format(
+                self.__record_size, len(record)))
 
         self.__seek_to_index(index)
         self.__fh.write(record)
@@ -74,9 +74,9 @@ class BikeStock(object):
         self.quantity = quantity
         self.price = price
 
-    @property
-    def size(self):
-        return self._BIKE_STRUCT.size
+    @staticmethod
+    def size():
+        return BikeStock._BIKE_STRUCT.size
 
     @property
     def identifier(self):
@@ -142,7 +142,7 @@ class BikeStock(object):
 
 class BikeInventory(object):
     def __init__(self, filename):
-        self.__file = BinaryRecordFile(filename, BikeStock.size)
+        self.__file = BinaryRecordFile(filename, BikeStock.size())
         self.__id_to_index = {}
 
         for index in range(len(self.__file)):
@@ -196,11 +196,11 @@ def brf_test():
 
     f = BinaryRecordFile(filename, 10)
 
-    S = struct.Struct("<10s")
+    s = struct.Struct("<10s")
 
-    f.append(S.pack(b"Alpha"))
-    f.append(S.pack(b"Beta"))
-    f.append(S.pack(b"Gamma"))
+    f.append(s.pack(b"Alpha"))
+    f.append(s.pack(b"Beta"))
+    f.append(s.pack(b"Gamma"))
 
     for i in range(len(f)):
         print(f[i])
@@ -208,14 +208,14 @@ def brf_test():
     print()
 
     del f[1]
-    f.append(S.pack(b"Omega"))
+    f.append(s.pack(b"Omega"))
 
     for i in range(len(f)):
         print(f[i])
 
     print()
 
-    f[1] = S.pack(b"Cyprus")
+    f[1] = s.pack(b"Cyprus")
 
     for i in range(len(f)):
         print(f[i])
