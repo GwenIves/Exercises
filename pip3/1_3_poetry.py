@@ -19,8 +19,8 @@ def main():
     except(ValueError, IndexError):
         pass
 
-    for line in range(lines):
-        print("{} {} {}".format(random.choice(articles), random.choice(subjects), random.choice(verbs)), end = "")
+    for _ in range(lines):
+        print("{} {} {}".format(random.choice(articles), random.choice(subjects), random.choice(verbs)), end="")
 
         if random.randint(1, 100) < 50:
             print(" {}".format(random.choice(adverbs)))

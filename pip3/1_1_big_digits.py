@@ -46,7 +46,7 @@ def main():
 
     for row in range(len(zero)):
         for column in range(len(num_digits)):
-            print("{}  ".format(digits[num_digits[column]][row]), end = "")
+            print("{}  ".format(digits[num_digits[column]][row]), end="")
 
         print()
 

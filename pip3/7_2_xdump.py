@@ -46,7 +46,7 @@ def dump_file(filename, args):
                 print(block_fmt.format(block_count, 8), end="")
                 block_count += 1
 
-                for index, byte in enumerate(block):
+                for index in len(block):
                     print("{:0>2x}".format(block[index]), end="")
 
                     if index % 4 == 3:
