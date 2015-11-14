@@ -96,19 +96,31 @@ def main():
 
     parser = argparse.ArgumentParser(description="Show directory listings")
 
-    parser.add_argument("-H", "--hidden", action="store_const", const=True, default=False,
-            help="Show hidden files [default: off]")
-    parser.add_argument("-m", "--modified", action="store_const", const=True, default=False,
-            help="Show last modified date/time [default: off]")
-    parser.add_argument("-r", "--recursive", action="store_const", const=True, default=False,
-            help="Recurse into subdirectories [default: off]")
-    parser.add_argument("-s", "--sizes", action="store_const", const=True, default=False,
-            help="Display sizes [default: off]")
-    parser.add_argument("-o", "--order", action="store", type=str, nargs=1, default=["name"],
-            choices=["name", "n", "modified", "m", "size", "s"],
-            help="Order by name, modification time or size [default: name]")
-    parser.add_argument("paths", action="store", nargs="*", type=str, default=".", metavar="path",
-            help="Path to process, . is used if none given")
+    parser.add_argument(
+        "-H", "--hidden", action="store_const", const=True, default=False,
+        help="Show hidden files [default: off]"
+    )
+    parser.add_argument(
+        "-m", "--modified", action="store_const", const=True, default=False,
+        help="Show last modified date/time [default: off]"
+    )
+    parser.add_argument(
+        "-r", "--recursive", action="store_const", const=True, default=False,
+        help="Recurse into subdirectories [default: off]"
+    )
+    parser.add_argument(
+        "-s", "--sizes", action="store_const", const=True, default=False,
+        help="Display sizes [default: off]"
+    )
+    parser.add_argument(
+        "-o", "--order", action="store", type=str, nargs=1, default=["name"],
+        choices=["name", "n", "modified", "m", "size", "s"],
+        help="Order by name, modification time or size [default: name]"
+    )
+    parser.add_argument(
+        "paths", action="store", nargs="*", type=str, default=".", metavar="path",
+        help="Path to process, . is used if none given"
+    )
 
     args = parser.parse_args()
 

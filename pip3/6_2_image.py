@@ -10,6 +10,10 @@ class LoadError(ImageError): pass
 class SaveError(ImageError): pass
 class ExportError(ImageError): pass
 
+XPM_RANGE_START = 32
+XPM_RANGE_STOP = 127
+XPM_RANGE_LEN = XPM_RANGE_STOP - XPM_RANGE_START - 2
+
 class Image(object):
     RED = "#FF0000"
     GREEN = "#00FF00"
@@ -115,22 +119,18 @@ class Image(object):
 
     @staticmethod
     def __get_xpm_chars(colors):
-        RANGE_START = 32
-        RANGE_STOP = 127
-        RANGE_LEN = RANGE_STOP - RANGE_START - 2
-
         size = len(colors)
 
-        if size <= RANGE_LEN:
-            chars = [chr(x) for x in range(RANGE_START, RANGE_STOP) if chr(x) != '"']
-        elif size <= RANGE_LEN * RANGE_LEN:
+        if size <= XPM_RANGE_LEN:
+            chars = [chr(x) for x in range(XPM_RANGE_START, XPM_RANGE_STOP) if chr(x) != '"']
+        elif size <= XPM_RANGE_LEN * XPM_RANGE_LEN:
             chars = []
 
-            for x in range(RANGE_START, RANGE_STOP):
+            for x in range(XPM_RANGE_START, XPM_RANGE_STOP):
                 if chr(x) == '"':
                     continue
 
-                for y in range(RANGE_START, RANGE_STOP):
+                for y in range(XPM_RANGE_START, XPM_RANGE_STOP):
                     if chr(y) == '"':
                         continue
 

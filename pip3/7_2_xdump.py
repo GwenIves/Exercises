@@ -1,7 +1,7 @@
 #!/bin/env python3
 
 import argparse
-import encodings
+from encodings import aliases
 
 def get_blocksize(argument):
     try:
@@ -17,8 +17,9 @@ def get_blocksize(argument):
 def get_encoding(argument):
     encoding = argument.lower()
 
-    if(encoding not in encodings.aliases.aliases.keys()
-            and encoding not in encodings.aliases.aliases.values()):
+    found = encoding in aliases.aliases.keys() or encoding in aliases.aliases.values()
+
+    if not found:
         raise argparse.ArgumentTypeError("Invalid encoding {}".format(argument))
 
     return encoding
@@ -63,16 +64,24 @@ def dump_file(filename, args):
 def main():
     parser = argparse.ArgumentParser(description="Show a hex dump of a binary file")
 
-    parser.add_argument("-b", "--blocksize", action="store", type=get_blocksize,
-            metavar="BLOCKSIZE", default=16,
-            help="block size(8..80) [default: 16]")
-    parser.add_argument("-d", "--decimal", action="store_const", const=True, default=False,
-            help="decimal block numbers [default: hexadecimal]")
-    parser.add_argument("-e", "--encoding", action="store", type=get_encoding,
-            metavar="ENCODING", default="utf8",
-            help="encoding(ASCII..UTF-32) [default: UTF-8]")
-    parser.add_argument("files", action="store", nargs="+", type=str,
-            help="Files to dump")
+    parser.add_argument(
+        "-b", "--blocksize", action="store", type=get_blocksize,
+        metavar="BLOCKSIZE", default=16,
+        help="block size(8..80) [default: 16]"
+    )
+    parser.add_argument(
+        "-d", "--decimal", action="store_const", const=True, default=False,
+        help="decimal block numbers [default: hexadecimal]"
+    )
+    parser.add_argument(
+        "-e", "--encoding", action="store", type=get_encoding,
+        metavar="ENCODING", default="utf8",
+        help="encoding(ASCII..UTF-32) [default: UTF-8]"
+    )
+    parser.add_argument(
+        "files", action="store", nargs="+", type=str,
+        help="Files to dump"
+    )
 
     args = parser.parse_args()
 

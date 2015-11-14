@@ -5,7 +5,7 @@ import io
 import optparse
 import xml.sax.saxutils
 
-max_width = 100
+MAX_WIDTH = 100
 
 def print_start():
     print("<table border='1'>")

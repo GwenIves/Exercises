@@ -2,18 +2,18 @@
 
 import sys
 
-zero = ["  ***  ", " *   * ", "*     *", "*     *", "*     *", " *   * ", "  ***  "]
-one = [" * ", "** ", " * ", " * ", " * ", " * ", "***"]
-two = [" *** ", "*   *", "*  * ", "  *  ", " *   ", "*    ", "*****"]
-three = [" *** ", "*   *", "    *", "  ** ", "    *", "*   *", " *** "]
-four = ["   *  ", "  **  ", " * *  ", "*  *  ", "******", "   *  ", "   *  "]
-five = ["*****", "*    ", "*    ", " *** ", "    *", "*   *", " *** "]
-six = [" *** ", "*    ", "*    ", "**** ", "*   *", "*   *", " *** "]
-seven = ["*****", "    *", "   * ", "  *  ", " *   ", "*    ", "*    "]
-eight = [" *** ", "*   *", "*   *", " *** ", "*   *", "*   *", " *** "]
-nine = [" ****", "*   *", "*   *", " ****", "    *", "    *", "    *"]
+ZERO = ["  ***  ", " *   * ", "*     *", "*     *", "*     *", " *   * ", "  ***  "]
+ONE = [" * ", "** ", " * ", " * ", " * ", " * ", "***"]
+TWO = [" *** ", "*   *", "*  * ", "  *  ", " *   ", "*    ", "*****"]
+THREE = [" *** ", "*   *", "    *", "  ** ", "    *", "*   *", " *** "]
+FOUR = ["   *  ", "  **  ", " * *  ", "*  *  ", "******", "   *  ", "   *  "]
+FIVE = ["*****", "*    ", "*    ", " *** ", "    *", "*   *", " *** "]
+SIX = [" *** ", "*    ", "*    ", "**** ", "*   *", "*   *", " *** "]
+SEVEN = ["*****", "    *", "   * ", "  *  ", " *   ", "*    ", "*    "]
+EIGHT = [" *** ", "*   *", "*   *", " *** ", "*   *", "*   *", " *** "]
+NINE = [" ****", "*   *", "*   *", " ****", "    *", "    *", "    *"]
 
-digits_template = [zero, one, two, three, four, five, six, seven, eight, nine]
+DIGITS_TEMPLATE = [ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE]
 
 def get_digits():
     try:
@@ -42,9 +42,9 @@ def main():
     if not num_digits:
         return
 
-    digits = get_digits_format(digits_template)
+    digits = get_digits_format(DIGITS_TEMPLATE)
 
-    for row in range(len(zero)):
+    for row in range(len(ZERO)):
         for column in range(len(num_digits)):
             print("{}  ".format(digits[num_digits[column]][row]), end="")
 

@@ -3,10 +3,10 @@
 import random
 import sys
 
-articles = ["a", "the"]
-subjects = ["cat", "dog", "man", "woman"]
-verbs = ["sang", "ran", "jumped"]
-adverbs = ["loudly", "quietly", "well", "badly"]
+ARTICLES = ["a", "the"]
+SUBJECTS = ["cat", "dog", "man", "woman"]
+VERBS = ["sang", "ran", "jumped"]
+ADVERBS = ["loudly", "quietly", "well", "badly"]
 
 def main():
     lines = 5
@@ -20,10 +20,17 @@ def main():
         pass
 
     for _ in range(lines):
-        print("{} {} {}".format(random.choice(articles), random.choice(subjects), random.choice(verbs)), end="")
+        print(
+            "{} {} {}".format(
+                random.choice(ARTICLES),
+                random.choice(SUBJECTS),
+                random.choice(VERBS)
+            ),
+            end=""
+        )
 
         if random.randint(1, 100) < 50:
-            print(" {}".format(random.choice(adverbs)))
+            print(" {}".format(random.choice(ADVERBS)))
         else:
             print()
 
