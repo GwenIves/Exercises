@@ -17,6 +17,8 @@ import sys
 
 import Console
 
+VERSION = 1
+
 
 Address = ["localhost", 9653]
 CarTuple = collections.namedtuple("CarTuple", "seats mileage owner")
@@ -131,23 +133,29 @@ def quit(*ignore):
 
 
 def stop_server(*ignore):
-    handle_request("SHUTDOWN", wait_for_reply=False)
+    ok, *data = handle_request("SHUTDOWN")
+    print(data[0])
     sys.exit()
 
 
 def handle_request(*items, wait_for_reply=True):
-    SizeStruct = struct.Struct("!I")
+    HeaderStruct = struct.Struct("!II")
     data = pickle.dumps(items, 3)
 
     try:
         with SocketManager(tuple(Address)) as sock:
-            sock.sendall(SizeStruct.pack(len(data)))
+            sock.sendall(HeaderStruct.pack(len(data), VERSION))
             sock.sendall(data)
             if not wait_for_reply:
                 return
 
-            size_data = sock.recv(SizeStruct.size)
-            size = SizeStruct.unpack(size_data)[0]
+            size_data = sock.recv(HeaderStruct.size)
+            size, version = HeaderStruct.unpack(size_data)
+
+            if version != VERSION:
+                print("Unsupported protocol version %d" % (version,))
+                sys.exit(1)
+
             result = bytearray()
             while True:
                 data = sock.recv(4000)

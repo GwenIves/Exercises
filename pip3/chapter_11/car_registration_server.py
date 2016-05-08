@@ -20,6 +20,8 @@ import struct
 import sys
 import threading
 
+VERSION = 1
+
 
 class Car:
 
@@ -54,10 +56,6 @@ class Car:
         self.__owner = owner
 
 
-
-class Finish(Exception): pass
-
-
 class RequestHandler(socketserver.StreamRequestHandler):
 
     CarsLock = threading.Lock()
@@ -75,19 +73,24 @@ class RequestHandler(socketserver.StreamRequestHandler):
 
 
     def handle(self):
-        SizeStruct = struct.Struct("!I")
-        size_data = self.rfile.read(SizeStruct.size)
-        size = SizeStruct.unpack(size_data)[0]
-        data = pickle.loads(self.rfile.read(size))
+        HeaderStruct = struct.Struct("!II")
+        header_data = self.rfile.read(HeaderStruct.size)
+        size, version = HeaderStruct.unpack(header_data)
 
-        function = self.Call[data[0]]
-        try:
+        if version == VERSION:
+            data = pickle.loads(self.rfile.read(size))
+
+            function = self.Call[data[0]]
             reply = function(*data[1:])
-        except Finish:
-            return
+        else:
+            reply = False, "Unsupported client version %d" % (version, )
+
         data = pickle.dumps(reply, 3)
-        self.wfile.write(SizeStruct.pack(len(data)))
+        self.wfile.write(HeaderStruct.pack(len(data), VERSION))
         self.wfile.write(data)
+
+        if reply[0] is None:
+            self.server.shutdown()
 
 
     def get_car_details(self, license):
@@ -138,9 +141,9 @@ class RequestHandler(socketserver.StreamRequestHandler):
         return (False, "Cannot register duplicate license")
 
 
-    def shutdown(self, *ignore):
-        self.server.shutdown()
-        raise Finish()
+    @staticmethod
+    def shutdown(*ignore):
+        return None, "Server shutting down"
 
 
 class CarRegistrationServer(socketserver.ThreadingMixIn,
