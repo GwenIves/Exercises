@@ -62,10 +62,58 @@ def retrieve_car_details(previous_license):
         return previous_license, None
     license = license.upper()
     ok, *data = handle_request("GET_CAR_DETAILS", license)
-    if not ok:
+    if ok:
+        return license, CarTuple(*data)
+    else:
         print(data[0])
-        return previous_license, None
-    return license, CarTuple(*data)
+
+        if data[0] == 'This license is not registered':
+            return retrieve_car_details_prompt(previous_license)
+        else:
+            return previous_license, None
+
+
+def retrieve_car_details_prompt(previous_license):
+    while True:
+        check = Console.get_menu_choice(
+            "Show similar (y/n)?",
+            "yYnN",
+            force_lower=True,
+            default="y"
+        )
+        if check != 'y':
+            break
+
+        prefix = Console.get_string("Start of license", "prefix")
+        ok, *data = handle_request("GET_LICENSES", prefix)
+
+        if ok:
+            licenses = data[0]
+
+            if not licenses:
+                print("No licenses starting with {}".format(prefix))
+                continue
+
+            for index, license in enumerate(licenses, start=1):
+                print("({}) {}".format(index, license))
+
+            choice = Console.get_integer(
+                "Enter choice (0 to cancel)",
+                minimum=0,
+                maximum=len(licenses)
+            )
+            if choice == 0:
+                break
+
+            license = licenses[choice - 1].upper()
+
+            ok, *data = handle_request("GET_CAR_DETAILS", license)
+            if ok:
+                return license, CarTuple(*data)
+        else:
+            break
+
+    return previous_license, None
 
 
 def get_car_details(previous_license):
