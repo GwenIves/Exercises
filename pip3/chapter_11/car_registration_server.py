@@ -9,6 +9,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 # General Public License for more details.
 
+import bisect
 import contextlib
 import copy
 import gzip
@@ -66,6 +67,7 @@ class RequestHandler(socketserver.StreamRequestHandler):
             CHANGE_MILEAGE=self.change_mileage,
             CHANGE_OWNER=self.change_owner,
             NEW_REGISTRATION=self.new_registration,
+            GET_LICENSES=self.get_licenses,
             SHUTDOWN=self.shutdown
         )
 
@@ -100,6 +102,23 @@ class RequestHandler(socketserver.StreamRequestHandler):
             return (True, car.seats, car.mileage, car.owner)
         return (False, "This license is not registered")
 
+
+    def get_licenses(self, prefix):
+        with RequestHandler.CarsLock:
+            licenses = list(self.Cars.keys())
+
+        licenses.sort()
+        result = []
+
+        i = bisect.bisect_left(licenses, prefix)
+
+        for l in licenses[i:]:
+            if l.startswith(prefix):
+                result.append(l)
+            else:
+                break
+
+        return True, result
 
     def change_mileage(self, license, mileage):
         if mileage < 0:
